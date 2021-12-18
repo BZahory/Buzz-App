@@ -13,7 +13,6 @@ import { MaterialIcons } from "@expo/vector-icons";
 import Onboarding from "react-native-onboarding-swiper";
 import { flex, width, height } from "styled-system";
 import { TouchableOpacity } from "react-native";
-import { RootStackParamList } from "../../../../App";
 import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
@@ -27,10 +26,10 @@ import {
   theme,
 } from "native-base";
 
-import BrowseComponent from "../../../Organisms/Browse";
-import TransferComponent from "../../../Organisms/Transfer";
-import SettingsComponent from "../../../Organisms/Settings";
-import OverviewComponent from "../../../Organisms/Overview";
+import BrowseComponent from "../../Molecules/Main/Browse";
+import TransferComponent from "../../Molecules/Main/Transfer";
+import SettingsComponent from "../../Molecules/Main/Settings";
+import OverviewComponent from "../../Molecules/Main/Overview";
 
 type homeScreenProp = NativeStackNavigationProp<
   PrimaryStackParamList,
@@ -77,12 +76,10 @@ export default function Main() {
             <MaterialIcons
               name={iconName}
               color={color}
-              size={focused ? 24 : 28}
+              size={focused ? 20 : 22}
             />
           );
         },
-        tabBarActiveTintColor: "tomato",
-        tabBarInactiveTintColor: "gray",
       })}
     >
       <TabsStack.Screen name="Overview" component={OverviewComponent} />

@@ -1,4 +1,3 @@
-import { Image, Text } from "react-native";
 import React from "react";
 import {
   NavigationContainer,
@@ -10,22 +9,21 @@ import {
 import Onboarding from "react-native-onboarding-swiper";
 import { flex, width, height } from "styled-system";
 import { TouchableOpacity } from "react-native";
-import { RootStackParamList } from "../../../App";
 import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
 } from "@react-navigation/native-stack";
-import { Box, Center, Stack, VStack } from "native-base";
-import { PrimaryStackParamList } from "../../Screens/Main/Main";
+import { Box, Center, Hidden, HStack, Stack, VStack, Text } from "native-base";
+import { PrimaryStackParamList } from "../../../Organisms/Main";
 
 type homeScreenProp = NativeStackNavigationProp<
   PrimaryStackParamList,
-  "Settings"
+  "Overview"
 >;
 
 const AppStack = createNativeStackNavigator<PrimaryStackParamList>();
 
-export default function BrowseComponent({ props }: any) {
+export default function OverviewComponent({ props }: any) {
   const navigation = useNavigation<homeScreenProp>();
   return (
     <>

@@ -10,22 +10,21 @@ import {
 import Onboarding from "react-native-onboarding-swiper";
 import { flex, width, height } from "styled-system";
 import { TouchableOpacity } from "react-native";
-import { RootStackParamList } from "../../../App";
 import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
 } from "@react-navigation/native-stack";
 import { Box, Center, Stack, VStack } from "native-base";
-import { PrimaryStackParamList } from "../../Screens/Main/Main";
+import { PrimaryStackParamList } from "../../../Organisms/Main";
 
 type homeScreenProp = NativeStackNavigationProp<
   PrimaryStackParamList,
-  "Transfer"
+  "Browse"
 >;
 
 const AppStack = createNativeStackNavigator<PrimaryStackParamList>();
 
-export default function TransferComponent({ props }: any) {
+export default function BrowseComponent({ props }: any) {
   const navigation = useNavigation<homeScreenProp>();
   return (
     <>
@@ -55,6 +54,7 @@ export default function TransferComponent({ props }: any) {
             borderTopRightRadius={{ md: "xl" }}
             borderBottomRightRadius={{ md: "xl" }}
           >
+            {/* Commands go in this line */}
             <VStack justifyContent="space-between" flex="1" space="24"></VStack>
           </Box>
         </Stack>

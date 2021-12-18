@@ -19,7 +19,7 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../../../App";
+import { RootStackParamList } from "../../../Organisms/PreMain";
 
 function PinInput() {
   return (

@@ -28,7 +28,7 @@ import FloatingLabelInput from "./components/FloatingLabelInput";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/core";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../../../App";
+import { RootStackParamList } from "../../../Organisms/PreMain";
 
 type homeScreenProp = NativeStackNavigationProp<RootStackParamList, "SignIn">;
 

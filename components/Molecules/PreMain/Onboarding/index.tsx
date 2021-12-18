@@ -9,7 +9,7 @@ import {
 import Onboarding from "react-native-onboarding-swiper";
 import { flex, width, height } from "styled-system";
 import { TouchableOpacity } from "react-native";
-import { RootStackParamList } from "../../../../App";
+import { RootStackParamList } from "../../../Organisms/PreMain";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 type homeScreenProp = NativeStackNavigationProp<

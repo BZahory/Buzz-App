@@ -16,8 +16,9 @@ import {
 } from "native-base";
 import BuzzIcon from "../../../../assets/BuzzIcon";
 import { useNavigation } from "@react-navigation/core";
-import { RootStackParamList } from "../../../../App";
+import { RootStackParamList } from "../../../Organisms/PreMain";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import ThemeSwitch from "../../../Atoms/ThemeSwitch";
 
 interface TitleProps {}
 
@@ -95,13 +96,7 @@ function ToggleDarkMode() {
   return (
     <HStack space={2} alignItems="center">
       <Text>Dark</Text>
-      <Switch
-        isChecked={colorMode === "light" ? true : false}
-        onToggle={toggleColorMode}
-        aria-label={
-          colorMode === "light" ? "switch to dark mode" : "switch to light mode"
-        }
-      />
+      <ThemeSwitch />
       <Text>Light</Text>
     </HStack>
   );
