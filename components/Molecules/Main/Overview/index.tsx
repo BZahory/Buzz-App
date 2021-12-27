@@ -1,19 +1,9 @@
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Box, Center, Stack, View, VStack } from "native-base";
 import React from "react";
-import {
-  NavigationContainer,
-  StackActions,
-  useNavigation,
-  useNavigationBuilder,
-} from "@react-navigation/native";
-
-import Onboarding from "react-native-onboarding-swiper";
-import { flex, width, height } from "styled-system";
-import { TouchableOpacity } from "react-native";
-import {
-  createNativeStackNavigator,
-  NativeStackNavigationProp,
-} from "@react-navigation/native-stack";
-import { Box, Center, Hidden, HStack, Stack, VStack, Text } from "native-base";
+import { Dimensions } from "react-native";
+import ThemeSwitch from "../../../Atoms/ThemeSwitch";
 import { PrimaryStackParamList } from "../../../Organisms/Main";
 
 type homeScreenProp = NativeStackNavigationProp<
@@ -21,12 +11,17 @@ type homeScreenProp = NativeStackNavigationProp<
   "Overview"
 >;
 
-const AppStack = createNativeStackNavigator<PrimaryStackParamList>();
-
 export default function OverviewComponent({ props }: any) {
   const navigation = useNavigation<homeScreenProp>();
   return (
     <>
+      {/* Off screen view renders a ThemeSwitch so theme can be changed in settings without a visible switch component */}
+
+      <View
+        style={{ position: "absolute", left: Dimensions.get("window").width }}
+      >
+        <ThemeSwitch />
+      </View>
       <Box
         safeAreaTop
         _light={{ bg: "primary.900" }}

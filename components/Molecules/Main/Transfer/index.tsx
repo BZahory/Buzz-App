@@ -1,28 +1,13 @@
-import { Image, Text } from "react-native";
-import React from "react";
-import {
-  NavigationContainer,
-  StackActions,
-  useNavigation,
-  useNavigationBuilder,
-} from "@react-navigation/native";
-
-import Onboarding from "react-native-onboarding-swiper";
-import { flex, width, height } from "styled-system";
-import { TouchableOpacity } from "react-native";
-import {
-  createNativeStackNavigator,
-  NativeStackNavigationProp,
-} from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Box, Center, Stack, VStack } from "native-base";
+import React from "react";
 import { PrimaryStackParamList } from "../../../Organisms/Main";
 
 type homeScreenProp = NativeStackNavigationProp<
   PrimaryStackParamList,
   "Transfer"
 >;
-
-const AppStack = createNativeStackNavigator<PrimaryStackParamList>();
 
 export default function TransferComponent({ props }: any) {
   const navigation = useNavigation<homeScreenProp>();

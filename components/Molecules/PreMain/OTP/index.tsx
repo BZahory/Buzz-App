@@ -1,24 +1,24 @@
-import React from "react";
-import {
-  VStack,
-  Box,
-  HStack,
-  Icon,
-  Text,
-  Link,
-  Button,
-  Image,
-  Hidden,
-  IconButton,
-  Center,
-  FormControl,
-  StatusBar,
-  Stack,
-  Input,
-} from "native-base";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import {
+  Box,
+  Button,
+  Center,
+  FormControl,
+  Hidden,
+  HStack,
+  Icon,
+  IconButton,
+  Image,
+  Input,
+  Link,
+  Stack,
+  StatusBar,
+  Text,
+  VStack,
+} from "native-base";
+import React from "react";
 import { RootStackParamList } from "../../../Organisms/PreMain";
 
 function PinInput() {

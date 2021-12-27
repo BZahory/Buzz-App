@@ -1,16 +1,9 @@
-import { Image, Text } from "react-native";
-import React from "react";
-import {
-  StackActions,
-  useNavigation,
-  useNavigationBuilder,
-} from "@react-navigation/native";
-
-import Onboarding from "react-native-onboarding-swiper";
-import { flex, width, height } from "styled-system";
-import { TouchableOpacity } from "react-native";
-import { RootStackParamList } from "../../../Organisms/PreMain";
+import { StackActions, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import React from "react";
+import { Image, Text, TouchableOpacity } from "react-native";
+import Onboarding from "react-native-onboarding-swiper";
+import { RootStackParamList } from "../../../Organisms/PreMain";
 
 type homeScreenProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -23,9 +16,9 @@ function Skip({ ...props }) {
     <TouchableOpacity
       style={{ marginHorizontal: 10 }}
       {...props}
-      onPress={() => navigation.navigate("SignIn")}
+      onPress={() => navigation.navigate("Main")}
     >
-      <Text>Sign In</Text>
+      <Text>dbug redirect</Text>
     </TouchableOpacity>
   );
 }

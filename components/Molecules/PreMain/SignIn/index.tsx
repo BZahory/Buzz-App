@@ -1,34 +1,32 @@
-import React, { useState } from "react";
-import {
-  Button,
-  HStack,
-  VStack,
-  Text,
-  Link,
-  Checkbox,
-  Divider,
-  Image,
-  useColorModeValue,
-  IconButton,
-  Icon,
-  Pressable,
-  Center,
-  Hidden,
-  StatusBar,
-  Stack,
-  Box,
-} from "native-base";
-import AntDesign from "react-native-vector-icons/AntDesign";
-import Entypo from "react-native-vector-icons/Entypo";
-
-import IconGoogle from "./components/IconGoogle";
-import IconFacebook from "./components/IconFacebook";
-import FloatingLabelInput from "./components/FloatingLabelInput";
-
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/core";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import {
+  Box,
+  Button,
+  Center,
+  Checkbox,
+  Divider,
+  Hidden,
+  HStack,
+  Icon,
+  IconButton,
+  Image,
+  Link,
+  Pressable,
+  Stack,
+  StatusBar,
+  Text,
+  useColorModeValue,
+  VStack,
+} from "native-base";
+import React, { useState } from "react";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import AntDesign from "react-native-vector-icons/AntDesign";
+import Entypo from "react-native-vector-icons/Entypo";
 import { RootStackParamList } from "../../../Organisms/PreMain";
+import FloatingLabelInput from "./components/FloatingLabelInput";
+import IconFacebook from "./components/IconFacebook";
+import IconGoogle from "./components/IconGoogle";
 
 type homeScreenProp = NativeStackNavigationProp<RootStackParamList, "SignIn">;
 

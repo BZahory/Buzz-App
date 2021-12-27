@@ -1,41 +1,155 @@
-import React from "react";
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Box, Stack, Text, theme, useColorMode, View } from "native-base";
+import React, { useEffect } from "react";
 import {
-  NavigationContainer,
-  StackActions,
-  useNavigation,
-  useNavigationBuilder,
-} from "@react-navigation/native";
-
-import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
-
-import {
-  createNativeStackNavigator,
-  NativeStackNavigationProp,
-} from "@react-navigation/native-stack";
-import {
-  Box,
-  Center,
-  Stack,
-  View,
-  Text,
-  useColorMode,
-  theme,
-} from "native-base";
-import { PrimaryStackParamList } from "../../../Organisms/Main";
-
+  Appearance,
+  DeviceEventEmitter,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
+import Animated from "react-native-reanimated";
 import SettingsList from "react-native-settings-list";
-import ThemeSwitch from "../../../Atoms/ThemeSwitch";
+import BottomSheet from "reanimated-bottom-sheet";
+import createNavText from "../../../Atoms/createNavText";
+import openLink from "../../../Atoms/openLink";
+import { SettingsStackParamList } from "../../../Organisms/Settings";
 
-type homeScreenProp = NativeStackNavigationProp<
-  PrimaryStackParamList,
-  "Settings"
+type settingsScreenProp = NativeStackNavigationProp<
+  SettingsStackParamList,
+  "Root"
 >;
 
-const AppStack = createNativeStackNavigator<PrimaryStackParamList>();
+export default function SettingsComponent() {
+  const { colorMode, toggleColorMode, setColorMode } = useColorMode();
+  const sheetRef = React.useRef<BottomSheet>(null);
+  const navigation = useNavigation<settingsScreenProp>();
 
-export default function SettingsComponent({ props }: any) {
-  const navigation = useNavigation<homeScreenProp>();
-  const { colorMode } = useColorMode();
+  //prevent memory leaks
+  useEffect(() => {
+    return () => {
+      DeviceEventEmitter.removeAllListeners();
+      sheetOpened = false;
+    };
+  }, []);
+
+  const renderInner = () => (
+    <View style={styles.panel}>
+      <TouchableOpacity
+        style={styles.panelButton}
+        onPress={() => {
+          DeviceEventEmitter.emit("event.colorChangeEvent", "dark");
+          null !== sheetRef.current ? sheetRef.current.snapTo(1) : {};
+        }}
+      >
+        <Text style={styles.panelButtonTitle}>Dark</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          DeviceEventEmitter.emit("event.colorChangeEvent", "light");
+          null !== sheetRef.current ? sheetRef.current.snapTo(1) : {};
+        }}
+        style={styles.panelButton}
+      >
+        <Text style={styles.panelButtonTitle}>Light</Text>
+      </TouchableOpacity>
+      {/* Maybe implement using a AWS Lambda for various sunset groups */}
+      {/* <TouchableOpacity style={styles.panelButton}>
+        <Text style={styles.panelButtonTitle}>
+          Time-Based (dark after sunset)
+        </Text>
+      </TouchableOpacity> */}
+      <TouchableOpacity
+        onPress={() => {
+          DeviceEventEmitter.emit(
+            "event.colorChangeEvent",
+            Appearance.getColorScheme()
+          );
+          null !== sheetRef.current ? sheetRef.current.snapTo(1) : {};
+        }}
+        style={styles.panelButton}
+      >
+        <Text style={styles.panelButtonTitle}>Match System Settings</Text>
+      </TouchableOpacity>
+    </View>
+  );
+
+  const renderHeader = () => <View style={styles.header} />;
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: "#2c2c2f",
+    },
+    box: {
+      width: 200,
+      height: 200,
+    },
+    panelContainer: {
+      position: "absolute",
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+    },
+    panel: {
+      padding: 20,
+      backgroundColor: "#2c2c2fAA",
+      paddingTop: 20,
+      borderTopLeftRadius: 20,
+      borderTopRightRadius: 20,
+      shadowColor: "#000000",
+      shadowOffset: { width: 0, height: 0 },
+      shadowRadius: 5,
+      shadowOpacity: 0.4,
+    },
+    header: {
+      width: "100%",
+      height: 50,
+    },
+    panelHeader: {
+      alignItems: "center",
+    },
+    panelHandle: {
+      width: 40,
+      height: 8,
+      borderRadius: 4,
+      backgroundColor: "#00000040",
+      marginBottom: 10,
+    },
+    panelTitle: {
+      fontSize: 27,
+      height: 35,
+    },
+    panelSubtitle: {
+      fontSize: 14,
+      color: "gray",
+      height: 30,
+      marginBottom: 10,
+    },
+    panelButton: {
+      padding: 20,
+      borderRadius: 10,
+      backgroundColor: "#292929",
+      alignItems: "center",
+      marginVertical: 10,
+    },
+    panelButtonTitle: {
+      fontSize: 17,
+      fontWeight: "bold",
+      color: "white",
+    },
+    photo: {
+      width: "100%",
+      height: 225,
+      marginTop: 30,
+    },
+    map: {
+      height: "100%",
+      width: "100%",
+    },
+  });
 
   let primaryColor: string, secondaryColor: string, bkgColor: string;
 
@@ -49,20 +163,27 @@ export default function SettingsComponent({ props }: any) {
     bkgColor = theme.colors["coolGray"]["800"];
   }
 
-  const createNavText = (text: string) => {
-    return (
-      <Text marginRight={1} color={secondaryColor}>
-        {text}
-      </Text>
-    );
-  };
+  const fall = new Animated.Value(1);
+
+  let sheetOpened: boolean = false;
+
+  const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
   return (
     <>
+      {/* Off screen view renders a ThemeSwitch so theme can be changed without a visible switch component */}
+
+      {/* <View
+        style={{ position: "absolute", left: Dimensions.get("window").width }}
+      >
+        <ThemeSwitch />
+      </View> */}
       <Box
         safeAreaTop
-        _light={{ bg: "primary.900" }}
-        _dark={{ bg: "coolGray.900" }}
+        backgroundColor={colorMode === "dark" ? "coolGray.900" : "primary.900"}
+        // Native base was brocken 🥺 as of writing this code, it kept using the _light color when dark mode was selected during onboarding
+        // _light={{ bg: "primary.900" }}
+        // _dark={{ bg: "coolGray.900" }}
       />
       <Stack
         flexDirection={{ base: "column", md: "row" }}
@@ -76,10 +197,9 @@ export default function SettingsComponent({ props }: any) {
         borderTopRightRadius={{ md: "xl" }}
         borderBottomRightRadius={{ md: "xl" }}
       >
-        <View
+        <AnimatedTouchable
           style={{
-            backgroundColor: bkgColor,
-            flex: 1,
+            opacity: Animated.add(0.1, Animated.multiply(fall, 0.9)),
           }}
         >
           <SettingsList
@@ -99,6 +219,13 @@ export default function SettingsComponent({ props }: any) {
               borderHide={"Top"}
             />
             <SettingsList.Item
+              onPress={() => {
+                // setColorMode(() => (colorMode === "light" ? "dark" : "light"));
+                // Null guard gets TypeScript to stop bitching about possible null
+                null !== sheetRef.current && !sheetOpened
+                  ? sheetRef.current.snapTo(0)
+                  : {};
+              }}
               icon={
                 <View
                   alignContent={"center"}
@@ -115,15 +242,13 @@ export default function SettingsComponent({ props }: any) {
               hasNavArrow={true}
               titleStyle={{ color: primaryColor, fontSize: 20 }}
               title="Mode"
-              navIcon={
-                // <View marginRight={1}>
-                //   <ThemeSwitch />
-                // </View>
-                createNavText(colorMode === "light" ? "Light" : "Dark")
-              }
+              navIcon={createNavText(
+                colorMode === "light" ? "Light" : "Dark",
+                secondaryColor
+              )}
             />
             <SettingsList.Item
-              hasNavArrow={true}
+              hasNavArrow={false}
               title="Account"
               titleStyle={{
                 marginLeft: 24,
@@ -134,6 +259,9 @@ export default function SettingsComponent({ props }: any) {
               borderHide={"Top"}
             />
             <SettingsList.Item
+              onPress={() =>
+                !sheetOpened ? navigation.navigate("AccountSecurity") : {}
+              }
               icon={
                 <View
                   alignContent={"center"}
@@ -152,6 +280,9 @@ export default function SettingsComponent({ props }: any) {
               title="Account Security"
             />
             <SettingsList.Item
+              onPress={() =>
+                !sheetOpened ? navigation.navigate("History") : {}
+              }
               icon={
                 <View
                   alignContent={"center"}
@@ -165,25 +296,7 @@ export default function SettingsComponent({ props }: any) {
                   />
                 </View>
               }
-              title="Trading History"
-              titleStyle={{ color: primaryColor, fontSize: 20 }}
-              hasNavArrow={true}
-            />
-            <SettingsList.Item
-              icon={
-                <View
-                  alignContent={"center"}
-                  marginLeft={1}
-                  justifyContent="center"
-                >
-                  <MaterialCommunityIcons
-                    color={primaryColor}
-                    size={20}
-                    name={"bank-transfer"}
-                  />
-                </View>
-              }
-              title="Transfer History"
+              title="History"
               titleStyle={{ color: primaryColor, fontSize: 20 }}
               hasNavArrow={true}
             />
@@ -199,6 +312,9 @@ export default function SettingsComponent({ props }: any) {
               borderHide={"Top"}
             />
             <SettingsList.Item
+              onPress={() =>
+                !sheetOpened ? navigation.navigate("Messages") : {}
+              }
               icon={
                 <View
                   alignContent={"center"}
@@ -212,12 +328,15 @@ export default function SettingsComponent({ props }: any) {
                   />
                 </View>
               }
-              title="Inquires and Messages"
-              navIcon={createNavText(String(0))}
+              title="Messages"
+              navIcon={createNavText(String(0), secondaryColor)}
               titleStyle={{ color: primaryColor, fontSize: 20 }}
               hasNavArrow={true}
             />
             <SettingsList.Item
+              onPress={() =>
+                !sheetOpened ? openLink("buzzapp.dev", colorMode) : {}
+              }
               icon={
                 <View
                   alignContent={"center"}
@@ -236,24 +355,9 @@ export default function SettingsComponent({ props }: any) {
               hasNavArrow={true}
             />
             <SettingsList.Item
-              icon={
-                <View
-                  alignContent={"center"}
-                  marginLeft={1}
-                  justifyContent="center"
-                >
-                  <MaterialCommunityIcons
-                    color={primaryColor}
-                    size={20}
-                    name={"file-document-outline"}
-                  />
-                </View>
+              onPress={() =>
+                !sheetOpened ? navigation.navigate("Feedback") : {}
               }
-              title="Legal Documents and Disclosures"
-              titleStyle={{ color: primaryColor, fontSize: 20 }}
-              hasNavArrow={true}
-            />
-            <SettingsList.Item
               icon={
                 <View
                   alignContent={"center"}
@@ -273,6 +377,9 @@ export default function SettingsComponent({ props }: any) {
               hasNavArrow={true}
             />
             <SettingsList.Item
+              onPress={() =>
+                !sheetOpened ? navigation.navigate("Contact") : {}
+              }
               icon={
                 <View
                   alignContent={"center"}
@@ -290,8 +397,45 @@ export default function SettingsComponent({ props }: any) {
               titleStyle={{ color: primaryColor, fontSize: 20 }}
               hasNavArrow={true}
             />
+            <SettingsList.Item
+              onPress={() =>
+                !sheetOpened ? openLink("buzzapp.dev", colorMode) : {}
+              }
+              icon={
+                <View
+                  alignContent={"center"}
+                  marginLeft={1}
+                  justifyContent="center"
+                >
+                  <MaterialCommunityIcons
+                    color={primaryColor}
+                    size={20}
+                    name={"file-document-outline"}
+                  />
+                </View>
+              }
+              title="Legal Documents and Disclosures"
+              titleStyle={{ color: primaryColor, fontSize: 20 }}
+              hasNavArrow={true}
+            />
           </SettingsList>
-        </View>
+        </AnimatedTouchable>
+        <BottomSheet
+          ref={sheetRef}
+          snapPoints={["37%", 0]}
+          callbackNode={fall}
+          initialSnap={1}
+          borderRadius={10}
+          enabledInnerScrolling={false}
+          renderContent={renderInner}
+          renderHeader={renderHeader}
+          onCloseEnd={() => {
+            sheetOpened = false;
+          }}
+          onOpenStart={() => {
+            sheetOpened = true;
+          }}
+        />
       </Stack>
     </>
   );

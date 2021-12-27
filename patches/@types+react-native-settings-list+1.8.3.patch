@@ -1,0 +1,27 @@
+diff --git a/node_modules/@types/react-native-settings-list/index.d.ts b/node_modules/@types/react-native-settings-list/index.d.ts
+index c893255..87e52fe 100755
+--- a/node_modules/@types/react-native-settings-list/index.d.ts
++++ b/node_modules/@types/react-native-settings-list/index.d.ts
+@@ -50,6 +50,10 @@ interface ItemProps {
+      */
+     title?: string | undefined;
+     titleStyle?: StyleProp<TextStyle> | undefined;
++    /**
++     * Subtitle being displayed
++     */
++    subtitle?: ReactNode | undefined;
+     /**
+      * Icon displayed on the left of the settings item
+      */
+@@ -106,6 +110,11 @@ interface ItemProps {
+     hasNavArrow?: boolean | undefined;
+     arrowIcon?: ReactNode | undefined;
+ 
++    /**
++     * Component to be placed next to > arrow
++     */
++     navIcon?: ReactNode | undefined;
++
+     arrowStyle?: StyleProp<ImageStyle> | undefined;
+     /**
+      * Enable or disable a Switch component

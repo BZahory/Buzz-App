@@ -1,40 +1,11 @@
-import { Image, Text } from "react-native";
-import React from "react";
-import {
-  NavigationContainer,
-  StackActions,
-  useNavigation,
-  useNavigationBuilder,
-} from "@react-navigation/native";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-
 import { MaterialIcons } from "@expo/vector-icons";
-
-import Onboarding from "react-native-onboarding-swiper";
-import { flex, width, height } from "styled-system";
-import { TouchableOpacity } from "react-native";
-import {
-  createNativeStackNavigator,
-  NativeStackNavigationProp,
-} from "@react-navigation/native-stack";
-import {
-  Center,
-  Tabs,
-  useColorMode,
-  extendTheme,
-  useTheme,
-  theme,
-} from "native-base";
-
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { theme, useColorMode } from "native-base";
+import React from "react";
 import BrowseComponent from "../../Molecules/Main/Browse";
-import TransferComponent from "../../Molecules/Main/Transfer";
-import SettingsComponent from "../../Molecules/Main/Settings";
 import OverviewComponent from "../../Molecules/Main/Overview";
-
-type homeScreenProp = NativeStackNavigationProp<
-  PrimaryStackParamList,
-  "Overview"
->;
+import Settings from "../../Organisms/Settings";
+import TransferComponent from "../../Molecules/Main/Transfer";
 
 export type PrimaryStackParamList = {
   Overview: undefined;
@@ -46,9 +17,7 @@ export type PrimaryStackParamList = {
 const TabsStack = createMaterialBottomTabNavigator<PrimaryStackParamList>();
 
 export default function Main() {
-  const navigation = useNavigation<homeScreenProp>();
   const { colorMode } = useColorMode();
-  const { color } = useTheme();
 
   return (
     <TabsStack.Navigator
@@ -85,7 +54,7 @@ export default function Main() {
       <TabsStack.Screen name="Overview" component={OverviewComponent} />
       <TabsStack.Screen name="Browse" component={BrowseComponent} />
       <TabsStack.Screen name="Transfer" component={TransferComponent} />
-      <TabsStack.Screen name="Settings" component={SettingsComponent} />
+      <TabsStack.Screen name="Settings" component={Settings} />
     </TabsStack.Navigator>
   );
 }

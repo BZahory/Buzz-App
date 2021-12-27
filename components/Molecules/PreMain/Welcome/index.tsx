@@ -1,24 +1,18 @@
-import React, { FC } from "react";
+import { useNavigation } from "@react-navigation/core";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import {
-  Text,
-  Link,
   Button,
-  HStack,
   Center,
   Heading,
-  Switch,
+  HStack,
+  Text,
   useColorMode,
-  NativeBaseProvider,
-  extendTheme,
   VStack,
-  Code,
-  Divider,
 } from "native-base";
+import React, { FC } from "react";
 import BuzzIcon from "../../../../assets/BuzzIcon";
-import { useNavigation } from "@react-navigation/core";
-import { RootStackParamList } from "../../../Organisms/PreMain";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import ThemeSwitch from "../../../Atoms/ThemeSwitch";
+import { RootStackParamList } from "../../../Organisms/PreMain";
 
 interface TitleProps {}
 
