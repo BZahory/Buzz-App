@@ -2,8 +2,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { theme, useColorMode } from "native-base";
 import React from "react";
-import BrowseComponent from "../../Molecules/Main/Browse";
-import OverviewComponent from "../../Molecules/Main/Overview";
+import Browse from "../../Organisms/Browse";
+import Overview from "../../Organisms/Overview";
 import Settings from "../../Organisms/Settings";
 import TransferComponent from "../../Molecules/Main/Transfer";
 
@@ -51,8 +51,8 @@ export default function Main() {
         },
       })}
     >
-      <TabsStack.Screen name="Overview" component={OverviewComponent} />
-      <TabsStack.Screen name="Browse" component={BrowseComponent} />
+      <TabsStack.Screen name="Overview" component={Overview} />
+      <TabsStack.Screen name="Browse" component={Browse} />
       <TabsStack.Screen name="Transfer" component={TransferComponent} />
       <TabsStack.Screen name="Settings" component={Settings} />
     </TabsStack.Navigator>

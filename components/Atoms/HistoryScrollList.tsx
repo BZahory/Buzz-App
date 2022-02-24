@@ -18,43 +18,51 @@ export type Portfolio = {
 };
 
 //replace with DB API calls via axios
-//assumes JSON are fed in order of date (use time-based DB)
-const portfolios: { [key: string]: Portfolio } = {
-  a: {
-    key: "womp",
-    desc: "Bought 100 shares of womp",
-    date: new Date("January 25, 2020"),
+//assumes JSON are fed in reverse order of date (use time-based DB)
+let portfolios: Portfolio[] = [
+  {
+    key: "wompn't",
+    desc: "Direct Deposit Sent",
+    date: new Date("December 24, 2021"),
     netChange: -100,
-    category: "order",
-  },
-  b: {
-    key: "womped",
-    desc: "Sold 100 shares of womp",
-    date: new Date("February 30, 2020"),
-    netChange: 100,
-    category: "order",
-  },
-  c: {
-    key: "womping",
-    desc: "Direct Deposit Received",
-    date: new Date("February 13, 2021"),
-    netChange: 100,
     category: "transfer",
   },
-  d: {
+  {
     key: "wompn't",
     desc: "Direct Deposit Sent",
     date: new Date("February 24, 2021"),
     netChange: -100,
     category: "transfer",
   },
-};
+  {
+    key: "womping",
+    desc: "Direct Deposit Received",
+    date: new Date("February 13, 2021"),
+    netChange: 100,
+    category: "transfer",
+  },
+  {
+    key: "womped",
+    desc: "Sold 100 shares of womp",
+    date: new Date("February 30, 2020"),
+    netChange: 100,
+    category: "order",
+  },
+  {
+    key: "womp",
+    desc: "Bought 100 shares of womp",
+    date: new Date("January 25, 2020"),
+    netChange: -100,
+    category: "order",
+  },
+];
 
 const renderHeader = () => <View />;
 
 export default function HistoryScrollList(
   primaryColor: string,
-  bkgColor: string
+  bkgColor: string,
+  onlyThisMonth: boolean
 ) {
   const sheetRef = React.useRef<BottomSheet>(null);
 
@@ -68,6 +76,8 @@ export default function HistoryScrollList(
 
   const navigation = useNavigation<settingsScreenProp>();
   const [state, setState] = useState({ selectedKey: "a" });
+
+  const todaysDate = new Date();
 
   const styles = StyleSheet.create({
     container: {
@@ -146,45 +156,50 @@ export default function HistoryScrollList(
     },
   });
 
-  const renderInner = () => {
-    return (
-      <View style={styles.panel}>
-        <Text style={[styles.panelSubtitle, { marginBottom: 10 }]}>
-          {portfolios[state.selectedKey].date.toLocaleString("default", {
-            month: "long",
-            day: "numeric",
-            year: "numeric",
-          }) +
-            " " +
-            portfolios[state.selectedKey].date.toLocaleTimeString("en-US")}{" "}
-        </Text>
-        <Text style={styles.panelTitle}>
-          {portfolios[state.selectedKey].desc}{" "}
-        </Text>
-      </View>
-    );
-  };
+  // const renderInner = () => {
+  //   return (
+  //     <View style={styles.panel}>
+  //       <Text style={[styles.panelSubtitle, { marginBottom: 10 }]}>
+  //         {portfolios[state.selectedKey].date.toLocaleString("default", {
+  //           month: "long",
+  //           day: "numeric",
+  //           year: "numeric",
+  //         }) +
+  //           " " +
+  //           portfolios[state.selectedKey].date.toLocaleTimeString("en-US")}{" "}
+  //       </Text>
+  //       <Text style={styles.panelTitle}>
+  //         {portfolios[state.selectedKey].desc}{" "}
+  //       </Text>
+  //     </View>
+  //   );
+  // };
 
   return (
     <>
       <SettingsList
-        backgroundColor={bkgColor}
-        borderColor={bkgColor}
+        backgroundColor={"transparent"}
+        borderColor={"transparent"}
         defaultItemSize={60}
       >
-        {Object.keys(portfolios).map((key) => {
+        {portfolios.map((item: Portfolio) => {
           if (
-            portfolios[key].date.getFullYear() > curYear ||
-            portfolios[key].date.getMonth() > curMonth
+            onlyThisMonth &&
+            (todaysDate.getMonth() != item.date.getMonth() ||
+              todaysDate.getFullYear() != item.date.getFullYear())
           ) {
-            curYear = portfolios[key].date.getFullYear();
-            curMonth = portfolios[key].date.getMonth();
+          } else if (
+            item.date.getFullYear() != curYear ||
+            item.date.getMonth() != curMonth
+          ) {
+            curYear = item.date.getFullYear();
+            curMonth = item.date.getMonth();
             return [
               <SettingsList.Item
                 key={curMonth + "" + curYear}
                 hasNavArrow={false}
                 title={
-                  portfolios[key].date.toLocaleString("default", {
+                  item.date.toLocaleString("default", {
                     month: "long",
                   }) +
                   " " +
@@ -199,9 +214,9 @@ export default function HistoryScrollList(
                 borderHide={"Top"}
               />,
               <SettingsList.Item
-                key={portfolios[key].key}
+                key={item.key}
                 onPress={() => {
-                  setState(({ selectedKey }) => ({ selectedKey: key }));
+                  // setState(({ selectedKey }) => ({ selectedKey: key }));
                   null !== sheetRef.current ? sheetRef.current.snapTo(0) : {};
                 }}
                 icon={
@@ -212,8 +227,8 @@ export default function HistoryScrollList(
                   ></View>
                 }
                 navIcon={createNavText(
-                  "$" + Math.abs(portfolios[key].netChange),
-                  portfolios[key].netChange > 0
+                  "$" + Math.abs(item.netChange),
+                  item.netChange > 0
                     ? theme.colors["green"]["700"]
                     : theme.colors["red"]["700"]
                 )}
@@ -222,16 +237,16 @@ export default function HistoryScrollList(
                   color: primaryColor,
                   fontSize: 20,
                 }}
-                title={portfolios[key].desc}
+                title={item.desc}
               />,
             ];
           } else {
             console.log("womp2");
             return (
               <SettingsList.Item
-                key={portfolios[key].key}
+                key={item.key}
                 onPress={() => {
-                  setState(({ selectedKey }) => ({ selectedKey: key }));
+                  // setState(({ selectedKey }) => ({ selectedKey: key }));
                   null !== sheetRef.current ? sheetRef.current.snapTo(0) : {};
                 }}
                 icon={
@@ -242,8 +257,8 @@ export default function HistoryScrollList(
                   ></View>
                 }
                 navIcon={createNavText(
-                  "$" + Math.abs(portfolios[key].netChange),
-                  portfolios[key].netChange > 0
+                  "$" + Math.abs(item.netChange),
+                  item.netChange > 0
                     ? theme.colors["green"]["700"]
                     : theme.colors["red"]["700"]
                 )}
@@ -252,14 +267,14 @@ export default function HistoryScrollList(
                   color: primaryColor,
                   fontSize: 20,
                 }}
-                title={portfolios[key].desc}
+                title={item.desc}
               />
             );
           }
         })}
       </SettingsList>
 
-      <BottomSheet
+      {/* <BottomSheet
         ref={sheetRef}
         snapPoints={["20%", "0%"]}
         initialSnap={1}
@@ -267,7 +282,7 @@ export default function HistoryScrollList(
         enabledInnerScrolling={false}
         renderContent={renderInner}
         renderHeader={renderHeader}
-      />
+      /> */}
     </>
   );
 }

@@ -46,6 +46,7 @@ export default async function openLink(url: string, colorMode: ColorMode) {
       Alert.alert(JSON.stringify(result));
     } else Linking.openURL(url);
   } catch (error) {
-    Alert.alert(error.message);
+    // Alert.alert(error.message);
+    Alert.alert("This demo can't access the web browser.");
   }
 }

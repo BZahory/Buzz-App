@@ -107,7 +107,7 @@ function SignUpForm({ props }: any) {
                         />
                       }
                       onPress={() => {
-                        setShowPass(!showPass);
+                        setShowPass((showPass) => !showPass);
                       }}
                     />
                   }

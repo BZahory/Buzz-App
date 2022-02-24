@@ -19,7 +19,8 @@ import {
   useColorModeValue,
   VStack,
 } from "native-base";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Entypo from "react-native-vector-icons/Entypo";
@@ -27,6 +28,7 @@ import { RootStackParamList } from "../../../Organisms/PreMain";
 import FloatingLabelInput from "./components/FloatingLabelInput";
 import IconFacebook from "./components/IconFacebook";
 import IconGoogle from "./components/IconGoogle";
+import * as LocalAuthentication from "expo-local-authentication";
 
 type homeScreenProp = NativeStackNavigationProp<RootStackParamList, "SignIn">;
 
@@ -37,6 +39,35 @@ export function SignInForm({ props }: any) {
   const [showPass, setShowPass] = React.useState(false);
   const navigation = useNavigation<homeScreenProp>();
 
+  useEffect(() => {
+    (async () => {
+      AsyncStorage.getItem("@isBiometricsEnabled").then((value) => {
+        if (value) {
+          LocalAuthentication.authenticateAsync().then((accessToken) => {
+            if (accessToken.success) {
+              navigation.navigate("OTP");
+            } else {
+              throw "Authentication unsuccessful";
+            }
+          });
+        }
+      });
+    })();
+  }, []);
+
+  //   async () => {
+  //     console.log("dfg");
+  //     if (isBiometricEnabled()) {
+  //       if ((await LocalAuthentication.authenticateAsync()).success) {
+  //         navigation.navigate("OTP");
+  //       } else {
+  //         throw `Authentication unsuccessful`;
+  //       }
+  //     }
+  //   };
+  // });
+
+  console.log("womp");
   return (
     <KeyboardAwareScrollView
       contentContainerStyle={{
@@ -105,7 +136,7 @@ export function SignInForm({ props }: any) {
                         />
                       }
                       onPress={() => {
-                        setShowPass(true);
+                        setShowPass((showPass) => !showPass);
                       }}
                     />
                   }
@@ -141,23 +172,6 @@ export function SignInForm({ props }: any) {
               >
                 Forgot password?
               </Link>
-              <Checkbox
-                alignItems="flex-start"
-                mt="5"
-                isChecked
-                value="demo"
-                colorScheme="primary"
-                accessibilityLabel="Remember me"
-              >
-                <Text
-                  pl="3"
-                  fontWeight="normal"
-                  _light={{ color: "coolGray.800" }}
-                  _dark={{ color: "coolGray.400" }}
-                >
-                  Remember me and keep me logged in
-                </Text>
-              </Checkbox>
               {/* Opening Link Tag navigateTo:"OTP" (react/Router) */}
               <Button
                 mt="5"

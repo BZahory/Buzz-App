@@ -1,7 +1,15 @@
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Box, Stack, Text, theme, useColorMode, View } from "native-base";
+import {
+  Box,
+  Stack,
+  Switch,
+  Text,
+  theme,
+  useColorMode,
+  View,
+} from "native-base";
 import React, { useEffect } from "react";
 import {
   Appearance,
@@ -15,6 +23,8 @@ import BottomSheet from "reanimated-bottom-sheet";
 import createNavText from "../../../Atoms/createNavText";
 import openLink from "../../../Atoms/openLink";
 import { SettingsStackParamList } from "../../../Organisms/Settings";
+import * as LocalAuthentication from "expo-local-authentication";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type settingsScreenProp = NativeStackNavigationProp<
   SettingsStackParamList,
@@ -33,6 +43,26 @@ export default function SettingsComponent() {
       sheetOpened = false;
     };
   }, []);
+
+  // wherever the useState is located
+  const [isBiometricSupported, setIsBiometricSupported] =
+    React.useState<boolean>(false);
+
+  const [isBiometricEnabled, setIsBiometricEnabled] =
+    React.useState<boolean>(false);
+
+  // Check if hardware supports biometrics and if the user is enrolled
+  useEffect(() => {
+    (async () => {
+      const compatible = await LocalAuthentication.hasHardwareAsync();
+      const enrolled = await LocalAuthentication.isEnrolledAsync();
+
+      setIsBiometricSupported(compatible && enrolled);
+      AsyncStorage.getItem("@isBiometricsEnabled").then((value) => {
+        setIsBiometricEnabled(value === "true");
+      });
+    })();
+  }, [isBiometricEnabled]);
 
   const renderInner = () => (
     <View style={styles.panel}>
@@ -258,7 +288,190 @@ export default function SettingsComponent() {
               }}
               borderHide={"Top"}
             />
+            {/* header
             <SettingsList.Item
+              hasNavArrow={false}
+              title="Sign In"
+              titleStyle={{
+                marginLeft: 24,
+                color: primaryColor,
+                fontWeight: "bold",
+                fontSize: 25,
+              }}
+              borderHide={"Top"}
+            /> */}
+            <SettingsList.Item
+              onPress={() => {
+                // setColorMode(() => (colorMode === "light" ? "dark" : "light"));
+                // Null guard gets TypeScript to stop bitching about possible null
+              }}
+              icon={
+                <View
+                  alignContent={"center"}
+                  marginLeft={1}
+                  justifyContent="center"
+                >
+                  <MaterialIcons
+                    color={primaryColor}
+                    size={20}
+                    name={"vpn-key"}
+                  />
+                </View>
+              }
+              hasNavArrow={true}
+              titleStyle={{ color: primaryColor, fontSize: 20 }}
+              title="Change Password"
+            />
+            {/* <SettingsList.Item
+            onPress={() => {
+              // setColorMode(() => (colorMode === "light" ? "dark" : "light"));
+              // Null guard gets TypeScript to stop bitching about possible null
+            }}
+            icon={
+              <View
+                alignContent={"center"}
+                marginLeft={1}
+                justifyContent="center"
+              >
+                <MaterialCommunityIcons
+                  color={primaryColor}
+                  size={20}
+                  name={"folder-key-network-outline"}
+                />
+              </View>
+            }
+            hasNavArrow={true}
+            titleStyle={{ color: primaryColor, fontSize: 20 }}
+            title="Two Factor Authentication"
+          /> */}
+            {isBiometricSupported && (
+              <SettingsList.Item
+                onPress={() => {}}
+                icon={
+                  <View
+                    alignContent={"center"}
+                    marginLeft={1}
+                    justifyContent="center"
+                  >
+                    <MaterialIcons
+                      color={primaryColor}
+                      size={20}
+                      name={"face"}
+                    />
+                  </View>
+                }
+                hasNavArrow={false}
+                titleStyle={{ color: primaryColor, fontSize: 20 }}
+                title="Face ID"
+                navIcon={
+                  <Switch
+                    marginRight={1}
+                    isChecked={isBiometricEnabled}
+                    onToggle={async () => {
+                      if (
+                        !isBiometricEnabled &&
+                        (await LocalAuthentication.authenticateAsync()).success
+                      ) {
+                        try {
+                          await AsyncStorage.setItem(
+                            "@isBiometricsEnabled",
+                            "true"
+                          );
+                        } catch (error) {
+                          // Error saving data
+                        }
+                        setIsBiometricEnabled(true);
+                      } else {
+                        try {
+                          await AsyncStorage.setItem(
+                            "@isBiometricsEnabled",
+                            "false"
+                          );
+                        } catch (error) {
+                          // Error saving data
+                        }
+                        setIsBiometricEnabled(false);
+                      }
+                    }}
+                  />
+                }
+              />
+            )}
+            <SettingsList.Item
+              onPress={() => {
+                navigation.navigate("ActiveDevices");
+              }}
+              icon={
+                <View
+                  alignContent={"center"}
+                  marginLeft={1}
+                  justifyContent="center"
+                >
+                  <MaterialIcons
+                    color={primaryColor}
+                    size={20}
+                    name={"devices"}
+                  />
+                </View>
+              }
+              hasNavArrow={true}
+              titleStyle={{ color: primaryColor, fontSize: 20 }}
+              title="Active Sign Ins"
+            />
+            {/* header */}
+            {/* <SettingsList.Item
+              hasNavArrow={false}
+              title="Information"
+              titleStyle={{
+                marginLeft: 24,
+                color: primaryColor,
+                fontWeight: "bold",
+                fontSize: 25,
+              }}
+              borderHide={"Top"}
+            />
+            <SettingsList.Item
+              onPress={() => {
+                openLink("buzzapp.dev", colorMode);
+              }}
+              icon={
+                <View
+                  alignContent={"center"}
+                  marginLeft={1}
+                  justifyContent="center"
+                >
+                  <MaterialCommunityIcons
+                    color={primaryColor}
+                    size={20}
+                    name={"shield-half-full"}
+                  />
+                </View>
+              }
+              hasNavArrow={true}
+              titleStyle={{ color: primaryColor, fontSize: 20 }}
+              title="How You Can Protect Your Account"
+            />
+            <SettingsList.Item
+              onPress={() => openLink("buzzapp.dev", colorMode)}
+              icon={
+                <View
+                  alignContent={"center"}
+                  marginLeft={1}
+                  justifyContent="center"
+                >
+                  <MaterialCommunityIcons
+                    style={{ transform: [{ rotateY: "180deg" }] }}
+                    color={primaryColor}
+                    size={20}
+                    name={"shield-half-full"}
+                  />
+                </View>
+              }
+              hasNavArrow={true}
+              titleStyle={{ color: primaryColor, fontSize: 20 }}
+              title="How We Protect Your Account"
+            /> */}
+            {/* <SettingsList.Item
               onPress={() =>
                 !sheetOpened ? navigation.navigate("AccountSecurity") : {}
               }
@@ -278,8 +491,8 @@ export default function SettingsComponent() {
               hasNavArrow={true}
               titleStyle={{ color: primaryColor, fontSize: 20 }}
               title="Account Security"
-            />
-            <SettingsList.Item
+            /> */}
+            {/* <SettingsList.Item
               onPress={() =>
                 !sheetOpened ? navigation.navigate("History") : {}
               }
@@ -299,7 +512,7 @@ export default function SettingsComponent() {
               title="History"
               titleStyle={{ color: primaryColor, fontSize: 20 }}
               hasNavArrow={true}
-            />
+            /> */}
             <SettingsList.Item
               hasNavArrow={false}
               title="Help and Support"
@@ -378,7 +591,7 @@ export default function SettingsComponent() {
             />
             <SettingsList.Item
               onPress={() =>
-                !sheetOpened ? navigation.navigate("Contact") : {}
+                !sheetOpened ? openLink("buzzapp.dev", colorMode) : {}
               }
               icon={
                 <View

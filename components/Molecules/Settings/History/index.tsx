@@ -42,7 +42,7 @@ export default function History() {
         borderTopRightRadius={{ md: "xl" }}
         borderBottomRightRadius={{ md: "xl" }}
       >
-        <View flex={1}>{HistoryScrollList(primaryColor, bkgColor)}</View>
+        <View flex={1}>{HistoryScrollList(primaryColor, bkgColor, true)}</View>
       </Stack>
     </>
   );

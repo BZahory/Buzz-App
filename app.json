@@ -1,4 +1,7 @@
 {
+  "infoPList": {
+    "NSFaceIDUsageDescription": "Uses FaceID to allow for optional local authentication on app open"
+  },
   "expo": {
     "name": "buzz-app",
     "slug": "buzz-app",
@@ -20,6 +23,7 @@
     "ios": {
       "userInterfaceStyle": "automatic",
       "supportsTablet": true
+
     },
     "android": {
       "userInterfaceStyle": "automatic",

@@ -9,6 +9,7 @@ import {
   Spacer,
   Text,
   useColorMode,
+  useContrastText,
 } from "native-base";
 import React, { useState } from "react";
 import SettingsList from "react-native-settings-list";
@@ -88,6 +89,7 @@ export default function MessageScrollList() {
   const { colorMode } = useColorMode();
 
   const navigation = useNavigation<settingsScreenProp>();
+
   return (
     <>
       <Button.Group
@@ -100,10 +102,10 @@ export default function MessageScrollList() {
       >
         <Button
           _dark={{
-            bg: filter["Tax Form"] ? "primary.400" : "primary.500",
+            bg: filter["Tax Form"] ? "primary.900" : "primary.700",
           }}
           _light={{
-            bg: filter["Tax Form"] ? "primary.600" : "primary.500",
+            bg: filter["Tax Form"] ? "primary.700" : "primary.500",
           }}
           onPress={() =>
             setFilter((prevState) => ({
@@ -117,10 +119,10 @@ export default function MessageScrollList() {
         </Button>
         <Button
           _dark={{
-            bg: filter["Inquiry"] ? "primary.400" : "primary.500",
+            bg: filter["Inquiry"] ? "primary.900" : "primary.700",
           }}
           _light={{
-            bg: filter["Inquiry"] ? "primary.600" : "primary.500",
+            bg: filter["Inquiry"] ? "primary.700" : "primary.500",
           }}
           onPress={() =>
             setFilter((prevState) => ({
@@ -134,10 +136,10 @@ export default function MessageScrollList() {
         </Button>
         <Button
           _dark={{
-            bg: filter["Transfer"] ? "primary.400" : "primary.500",
+            bg: filter["Transfer"] ? "primary.900" : "primary.700",
           }}
           _light={{
-            bg: filter["Transfer"] ? "primary.600" : "primary.500",
+            bg: filter["Transfer"] ? "primary.700" : "primary.500",
           }}
           onPress={() =>
             setFilter((prevState) => ({
@@ -170,14 +172,14 @@ export default function MessageScrollList() {
                     _light={{
                       bg:
                         isPressed && messages[key].docLink != null
-                          ? "primary.800"
-                          : "primary.900",
+                          ? "primary.500"
+                          : "primary.700",
                     }}
                     _dark={{
                       bg:
                         isPressed && messages[key].docLink != null
-                          ? "primary.800"
-                          : "primary.700",
+                          ? "primary.700"
+                          : "primary.900",
                     }}
                     p="5"
                     rounded="8"

@@ -1,9 +1,8 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useColorMode } from "native-base";
 import React from "react";
-import SettingsComponent from "../../Molecules/Main/Settings";
+import SettingsComponent from "../../Molecules/Settings/Root";
 import AccountSecurity from "../../Molecules/Settings/AccountSecurity";
-import Contact from "../../Molecules/Settings/Contact";
 import Feedback from "../../Molecules/Settings/Feedback";
 import LegalDocs from "../../Molecules/Settings/LegalDocs";
 import Messages from "../../Molecules/Settings/Messages";
@@ -15,7 +14,6 @@ export type SettingsStackParamList = {
   History: undefined;
   Messages: undefined;
   Feedback: undefined;
-  Contact: undefined;
   LegalDocs: undefined;
   ActiveDevices: undefined;
   Root: undefined;
@@ -24,8 +22,6 @@ export type SettingsStackParamList = {
 const SettingsStack = createNativeStackNavigator<SettingsStackParamList>();
 
 export default function Main() {
-  const { colorMode } = useColorMode();
-
   return (
     <SettingsStack.Navigator screenOptions={{ headerShown: false }}>
       <SettingsStack.Screen name="Root" component={SettingsComponent} />
@@ -36,7 +32,6 @@ export default function Main() {
       <SettingsStack.Screen name="History" component={History} />
       <SettingsStack.Screen name="Messages" component={Messages} />
       <SettingsStack.Screen name="Feedback" component={Feedback} />
-      <SettingsStack.Screen name="Contact" component={Contact} />
       <SettingsStack.Screen name="LegalDocs" component={LegalDocs} />
       <SettingsStack.Screen name="ActiveDevices" component={ActiveDevices} />
     </SettingsStack.Navigator>

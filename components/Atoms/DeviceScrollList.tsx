@@ -2,6 +2,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { View, Text } from "native-base";
 import React from "react";
 import SettingsList from "react-native-settings-list";
+import createNavText from "./createNavText";
 
 export type Device = {
   key: string;
@@ -85,9 +86,10 @@ export default function DeviceScrollList(
             //     })}
             //   </Text>
             // }
-            hasNavArrow={true}
+            hasNavArrow={false}
             titleStyle={{ color: primaryColor, fontSize: 20 }}
             title={devices[key].deviceName}
+            navIcon={createNavText(devices[key].location, primaryColor)}
             subtitle={
               <Text marginLeft={1}>
                 {devices[key].lastSignIn.toLocaleString("default", {

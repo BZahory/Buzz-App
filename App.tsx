@@ -7,12 +7,21 @@ import {
   StorageManager,
 } from "native-base";
 import React from "react";
+import { LogBox } from "react-native";
 import PreMain from "./components/Organisms/PreMain";
 
 // Define the config
 const config = {
   useSystemColorMode: true,
   // initialColorMode: "dark",
+  dependencies: {
+    "linear-gradient": require("expo-linear-gradient").LinearGradient,
+  },
+  fonts: {
+    heading: "sans-serif",
+    body: "sans-serif",
+    mono: "sans-serif",
+  },
 };
 
 // extend the theme
@@ -39,9 +48,14 @@ export const theme = extendTheme({ config });
 // };
 
 export default function App() {
+  LogBox.ignoreAllLogs(true);
+  const [isBiometricEnabled, setIsBiometricEnabled] = React.useState(false);
+  const biometricContext = React.createContext(isBiometricEnabled);
+
   return (
     <NativeBaseProvider
-    // colorModeManager= {colorModeManager}
+      config={theme.config}
+      // colorModeManager= {colorModeManager}
     >
       <NavigationContainer>
         <PreMain />
