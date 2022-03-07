@@ -29,22 +29,22 @@ export const ENTRIES1 = [
       illustration: 'https://i.imgur.com/UPrs1EWl.jpg'
   },
   {
-      title: 'White Pocket Sunset',
+      title: 'Sample Portfolio C',
       subtitle: 'Lorem ipsum dolor sit amet et nuncat ',
       illustration: 'https://i.imgur.com/MABUbpDl.jpg'
   },
   {
-      title: 'Acrocorinth, Greece',
+      title: 'Sample Portfolio E',
       subtitle: 'Lorem ipsum dolor sit amet et nuncat mergitur',
       illustration: 'https://i.imgur.com/KZsmUi2l.jpg'
   },
   {
-      title: 'The lone tree, majestic landscape of New Zealand',
+      title: 'Sample Portfolio F',
       subtitle: 'Lorem ipsum dolor sit amet',
       illustration: 'https://i.imgur.com/2nCt3Sbl.jpg'
   },
   {
-      title: 'Middle Earth, Germany',
+      title: 'Sample Portfolio G',
       subtitle: 'Lorem ipsum dolor sit amet',
       illustration: 'https://i.imgur.com/lceHsT6l.jpg'
   }

@@ -12,7 +12,7 @@ import PreMain from "./components/Organisms/PreMain";
 
 // Define the config
 const config = {
-  useSystemColorMode: true,
+  // useSystemColorMode: true,
   // initialColorMode: "dark",
   dependencies: {
     "linear-gradient": require("expo-linear-gradient").LinearGradient,
