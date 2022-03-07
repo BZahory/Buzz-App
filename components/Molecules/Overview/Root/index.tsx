@@ -14,7 +14,7 @@ import { Dimensions, FlatList } from "react-native";
 import GraphAndSlider from "../../../Atoms/GraphAndSlider";
 import Item from "../../../Atoms/Item";
 import ThemeSwitch from "../../../Atoms/ThemeSwitch";
-import VotingCarousel from "../../../Atoms/votingCarousel";
+import VotingCarousel from "../../../Atoms/VotingCarousel";
 import { OverviewStackParamList } from "../../../Organisms/Overview";
 
 type homeScreenProp = NativeStackNavigationProp<OverviewStackParamList, "Root">;
@@ -89,14 +89,14 @@ export default function OverviewComponent({ props }: any) {
               marginY="2.5%"
               _light={{ bg: "primary.900" }}
               _dark={{ bg: "coolGray.900" }}
-              p="2.5"
               rounded="xl"
+              alignContent="center"
+              py="5%"
             >
-              <GraphAndSlider
-                index={index}
-                setIndex={setIndex}
-                initTest={2000}
-              />
+              <Heading fontSize={36} marginY="2.5%" alignSelf="center">
+                Active Votes
+              </Heading>
+              <VotingCarousel />
             </Box>
             <Box
               marginY="2.5%"
@@ -105,7 +105,11 @@ export default function OverviewComponent({ props }: any) {
               p="2.5"
               rounded="xl"
             >
-              <VotingCarousel />
+              <GraphAndSlider
+                index={index}
+                setIndex={setIndex}
+                initTest={2000}
+              />
             </Box>
             <Box
               marginY="2.5%"

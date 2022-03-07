@@ -33,6 +33,7 @@ type settingsScreenProp = NativeStackNavigationProp<
 
 export default function SettingsComponent() {
   const { colorMode, toggleColorMode, setColorMode } = useColorMode();
+
   const sheetRef = React.useRef<BottomSheet>(null);
   const navigation = useNavigation<settingsScreenProp>();
 
