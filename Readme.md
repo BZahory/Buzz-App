@@ -15,9 +15,9 @@ This project is currently in development, and many features are not fully functi
 
 ## Project Screen Shots
 
-![Picture of potential voting screen that resembles Tinder swiping](https://github.com/BZahory/Buzz-App/blob/screenshots/activevotes.png?raw=true)
-![Gif of animated transfer screen, with circles surrounding the balance and a countdown](https://github.com/BZahory/Buzz-App/blob/screenshots/transfer.gif?raw=true)
-![Gif of opening a portfolio and using the graph](https://github.com/BZahory/Buzz-App/blob/screenshots/browse.gif?raw=true)
+![Picture of potential voting screen that resembles Tinder swiping](https://github.com/BZahory/Buzz-App/blob/main/screenshots/activevotes.PNG?raw=true)
+![Gif of animated transfer screen, with circles surrounding the balance and a countdown](https://github.com/BZahory/Buzz-App/blob/main/screenshots/transfer.gif?raw=true)
+![Gif of opening a portfolio and using the graph](https://github.com/BZahory/Buzz-App/blob/main/screenshots/browse.gif?raw=true)
 
 ## Installation and Setup Instructions
 
