@@ -29,6 +29,9 @@ export default function Main() {
       }}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color }) => {
+          {
+            /* Set the icon based on the route name */
+          }
           let iconName: any;
 
           if (route.name === "Overview") {

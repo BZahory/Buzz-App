@@ -212,7 +212,7 @@ export default function SettingsComponent() {
       <Box
         safeAreaTop
         backgroundColor={colorMode === "dark" ? "coolGray.900" : "primary.900"}
-        // Native base was brocken 🥺 as of writing this code, it kept using the _light color when dark mode was selected during onboarding
+        // Native base was broken as of writing this code, it kept using the _light color when dark mode was selected during onboarding
         // _light={{ bg: "primary.900" }}
         // _dark={{ bg: "coolGray.900" }}
       />
@@ -252,7 +252,7 @@ export default function SettingsComponent() {
             <SettingsList.Item
               onPress={() => {
                 // setColorMode(() => (colorMode === "light" ? "dark" : "light"));
-                // Null guard gets TypeScript to stop bitching about possible null
+                // Null guard gets TypeScript to stop complaining about possible null
                 null !== sheetRef.current && !sheetOpened
                   ? sheetRef.current.snapTo(0)
                   : {};
@@ -304,7 +304,7 @@ export default function SettingsComponent() {
             <SettingsList.Item
               onPress={() => {
                 // setColorMode(() => (colorMode === "light" ? "dark" : "light"));
-                // Null guard gets TypeScript to stop bitching about possible null
+                // Null guard gets TypeScript to stop complaining about possible null
               }}
               icon={
                 <View
@@ -326,7 +326,7 @@ export default function SettingsComponent() {
             {/* <SettingsList.Item
             onPress={() => {
               // setColorMode(() => (colorMode === "light" ? "dark" : "light"));
-              // Null guard gets TypeScript to stop bitching about possible null
+              // Null guard gets TypeScript to stop complaining about possible null
             }}
             icon={
               <View

@@ -31,6 +31,10 @@ type item = {
   percent: number;
 };
 
+{
+  /* TODO: Replace with proper API call(s) */
+}
+
 const data: item[] = [
   {
     name: "Bitcoin",

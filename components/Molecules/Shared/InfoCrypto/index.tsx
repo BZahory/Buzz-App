@@ -26,6 +26,9 @@ type item = {
   imgsrc: string;
 };
 
+{
+  /* TODO: Replace with proper API call(s) in the future */
+}
 const data: item[] = [
   {
     name: "Bitcoin",
